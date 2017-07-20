@@ -15,8 +15,10 @@ android:
     - tools
     - platform-tools
     - build-tools-26.0.0
-    - android 21
-    - sys-img-armeabi-v7a-android-21
+    # - android 21
+    # - sys-img-armeabi-v7a-android-21
+    # - android 21
+    # - sys-img-armeabi-v7a-android-21
     - extra
     - add-on
   licenses:
@@ -28,12 +30,18 @@ android:
 jdk:
   - oraclejdk8
 before_script:
-  - echo no | android create avd --force -n test -t android-21 --abi armeabi-v7a
-  - emulator -avd test -no-skin -no-audio -no-window &
-  - android-wait-for-emulator
-  - adb shell input keyevent 82 &
+  #- echo no | android create avd --force -n test -t android-21 --abi armeabi-v7a
+  #- emulator -avd test -no-skin -no-audio -no-window &
+  #- android-wait-for-emulator
+  #- adb shell input keyevent 82 &
 script:
-  - ./gradlew build connectedCheck
+#  - ./gradlew checkstyle -x test
+  - ./gradlew clean violationCommentsToGitHub -DGITHUB_PULLREQUESTID=1 -DGITHUB_USERNAME=tuanbaros -DGITHUB_PASSWORD=thanhtuan378129
+#  - ./gradlew build connectedCheck
+  #- echo no | android create avd --force -n test -t android-21 --abi armeabi-v7a
+  #- emulator -avd test -no-skin -no-audio -no-window &
+  #- android-wait-for-emulator
+  #- adb shell input keyevent 82 &
 before_cache:
   - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
 cache:
@@ -41,3 +49,8 @@ cache:
     - $HOME/.m2
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
+
+notifications:
+  email:
+    - tuanbaros123@gmail.com
+    - tuanbaros@yahoo.com.vn
