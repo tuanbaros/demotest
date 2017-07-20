@@ -7,6 +7,15 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.junit.FixMethodOrder;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.MethodSorters;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.mockito.internal.verification.api.VerificationData;
+import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.verification.VerificationMode;
 
 import static org.mockito.Mockito.verify;
 
@@ -14,6 +23,7 @@ import static org.mockito.Mockito.verify;
  * Created by FRAMGIA\nguyen.thanh.tuan on 7/19/17.
  */
 @RunWith(MockitoJUnitRunner.class)
+@FixMethodOrder(MethodSorters.DEFAULT)
 public class MainActionTest {
 
     private MainAction mMainAction;
@@ -34,6 +44,12 @@ public class MainActionTest {
     @Test
     public void showAbc() {
         int a = mMainAction.abc(null);
+        verify(mAction1).show(mContext, a);
+    }
+
+    @Test
+    public void showAbc2() {
+        int a = mMainAction.abc("");
         verify(mAction1).show(mContext, a);
     }
 

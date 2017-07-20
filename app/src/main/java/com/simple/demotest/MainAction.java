@@ -27,6 +27,7 @@ public class MainAction {
             mAction1.show(mContext, 0);
             return 0;
         }
+        if (mString.length() == 3) return 0;
         mAction1.show(mContext, s.length());
         return s.length();
     }

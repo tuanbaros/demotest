@@ -15,25 +15,38 @@ android:
     - tools
     - platform-tools
     - build-tools-26.0.0
-    - android 21
-    - sys-img-armeabi-v7a-android-21
-    - extra
-    - add-on
+    # - android 21
+    # - sys-img-armeabi-v7a-android-21
+    # - android 21
+    # - sys-img-armeabi-v7a-android-21
+#    - extra
+#    - add-on
   licenses:
-      - 'android-sdk-preview-license-.+'
-      - 'android-sdk-preview-license'
-      - 'android-sdk-license-.+'
-      - 'android-sdk-license'
-      - 'google-gdk-license-.+'
+#      - 'android-sdk-preview-license-.+'
+#      - 'android-sdk-preview-license'
+#      - 'android-sdk-license-.+'
+#      - 'android-sdk-license'
+#      - 'google-gdk-license-.+'
+#      - 'google-gdk-license'
 jdk:
   - oraclejdk8
+
+env:
+  - secure: KW2hpQrltmLktur/NbA9V+ZzMfDKuuR4bHpW/zphhBcGg7zoOn6+hE4ezSREq9KQ+jeeAIg3H67YS2GJZcCIbW+FK7epIY06eWlTAxbK2sKL1cJ4lsKXtt4XFc36gpRiAFTLICdqYQFOHEg0Q+GtEYlMDmnjZIQh46HunysAtpkW/mHvQeRkdWRvoWCrAeeW1sOx4oIgEEKXJ+px+S7MwNDfAQAGHYukWcdjnrX+2/gmiXTyxCHDkiQ5KHbnhOYZ9IcVeEMqd+AVpFrVD8n+tKVlwzClb6/fpxIpiVNkxWODwZHhn8quWPOS0eGM2jNHremJg8NLZUG+voG/aFyicbyV+JgZE7752nqQGa7t109PW9L225ILHWQJ6yPODUdW/grtVjvOclf3fWk+rUdrkzpdeJdXnCQ0FNfh7ySJuXBUQPSQ5ntlP5DJo+Oj37B4f0IHWWqoRvUBCVzyJeIkWEIVXt/dd10aNEbyEXtSACZxCM0tTjoGTjXNkR+mJ9E4hCaHQFfOpYJ4S3KUMFuB+NhF4eSMAEanMKa9Q4Q9lCvoD6ep/k0rvDLM5Q1nfF7ZncyNOV7RKxFcLW1XRcHxyfMjBYAFZc8s8ldIEND9cZ2GjVYrZRKuZR/e7l2TYx9rnXGNdGOixQdG73xHO0WKbEmfD2yd8xwhVAksKYXk/8Y=
 before_script:
-  - echo no | android create avd --force -n test -t android-21 --abi armeabi-v7a
-  - emulator -avd test -no-skin -no-audio -no-window &
-  - android-wait-for-emulator
-  - adb shell input keyevent 82 &
+  #- echo no | android create avd --force -n test -t android-21 --abi armeabi-v7a
+  #- emulator -avd test -no-skin -no-audio -no-window &
+  #- android-wait-for-emulator
+  #- adb shell input keyevent 82 &
 script:
-  - ./gradlew build connectedCheck
+#  - ./gradlew checkstyle -x test
+#  - ./gradlew clean violationCommentsToGitHub -DGITHUB_PULLREQUESTID=1 -DGITHUB_USERNAME=tuanbaros -DGITHUB_PASSWORD=thanhtuan378129
+#  - ./gradlew build connectedCheck
+  #- echo no | android create avd --force -n test -t android-21 --abi armeabi-v7a
+  #- emulator -avd test -no-skin -no-audio -no-window &
+  #- android-wait-for-emulator
+  #- adb shell input keyevent 82 &
+  - ./gradlew build violationCommentsToGitHub -DGITHUB_PULLREQUESTID=$TRAVIS_PULL_REQUEST -DGITHUB_OAUTH2TOKEN=$GITHUB_OAUTH2TOKEN -i --stacktrace
 before_cache:
   - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
 cache:
@@ -41,3 +54,8 @@ cache:
     - $HOME/.m2
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
+
+notifications:
+  email:
+    - tuanbaros123@gmail.com
+    - tuanbaros@yahoo.com.vn

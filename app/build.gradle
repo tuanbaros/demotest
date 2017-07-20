@@ -1,4 +1,6 @@
 apply plugin: 'com.android.application'
+apply plugin: 'checkstyle'
+apply plugin: "se.bjurr.violations.violation-comments-to-github-gradle-plugin"
 
 android {
   compileSdkVersion 26
@@ -19,6 +21,43 @@ android {
   }
 }
 
+task checkstyle(type: Checkstyle) {
+  ignoreFailures false
+  showViolations true
+  configFile file("${project.rootDir}/config/checkstyle/android-style.xml")
+  configProperties.checkstyleSuppressionsPath = file("${project.rootDir}/config/checkstyle/suppressions.xml")
+  source 'src/main/java'
+  include '**/*.java'
+  exclude '**/gen/**'
+  classpath = files()
+
+  reports {
+    xml.enabled = true
+    html.enabled = false
+  }
+}
+
+task violationCommentsToGitHub(type: se.bjurr.violations.comments.github.plugin.gradle.ViolationCommentsToGitHubTask) {
+  repositoryOwner = "tuanbaros";
+  repositoryName = "demotest"
+  pullRequestId = System.properties['GITHUB_PULLREQUESTID']
+  username = System.properties['GITHUB_USERNAME']
+  password = System.properties['GITHUB_PASSWORD']
+  oAuth2Token = System.properties['GITHUB_OAUTH2TOKEN']
+  gitHubUrl = "https://api.github.com/"
+  createCommentWithAllSingleFileComments = false
+  createSingleFileComments = true
+  commentOnlyChangedContent = true
+  minSeverity = se.bjurr.violations.lib.model.SEVERITY.INFO //ERROR, INFO, WARN
+  violations = [
+      ["FINDBUGS",   ".", ".*/findbugs/.*\\.xml\$",   "Findbugs"],
+      ["PMD",        ".", ".*/pmd/.*\\.xml\$",        "PMD"],
+      ["CHECKSTYLE", ".", ".*/checkstyle/.*\\.xml\$", "Checkstyle"],
+      ["JSHINT",     ".", ".*/jshint/.*\\.xml\$",     "JSHint"],
+      ["CSSLINT",    ".", ".*/csslint/.*\\.xml\$",     "CssLint"]
+  ]
+}
+
 dependencies {
   compile fileTree(include: ['*.jar'], dir: 'libs')
   compile 'com.android.support:appcompat-v7:26.0.0-alpha1'
@@ -30,4 +69,7 @@ dependencies {
   // ui android test
   androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2')
   androidTestCompile 'com.android.support.test.espresso:espresso-intents:2.2.2'
+
+  //check style
+  checkstyle 'com.puppycrawl.tools:checkstyle:6.15'
 }
